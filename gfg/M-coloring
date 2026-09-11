@@ -1,0 +1,42 @@
+class Solution {
+  public:
+    bool graphColoring(int v, vector<vector<int>> &edges, int m) {
+        // code here
+        //im building an adjacency graph first
+        vector<vector<int>>graph(v); //build a graph of size n
+        vector<int>colour(m,0); //kind of colour array
+        for(auto &edge:edges)
+        {
+            graph[edge[0]].push_back(edge[1]);
+            graph[edge[1]].push_back(edge[0]);
+            
+        }//id edge is (x,) pair in edges , we are saying if x is connected to y , y is connected to x
+        return solve(0,v,graph,m,colour);
+        
+    }
+    bool solve(int node,int v, vector<vector<int>> &graph, int m,vector<int>&colour)
+    {
+        //define base case
+        if(node ==v) return true;
+        
+        
+        for(int i=1;i<=m;i++)
+        {
+            if(ispossible(node,i,graph,colour)==true)
+            {
+                colour[node]=i;
+                if(solve(node+1,v,graph,m,colour)==true) return true;
+                colour[node]=0; //backtrack
+            }
+        }
+        return false;
+    }
+    bool ispossible(int node,int col,vector<vector<int>> &graph,vector<int>&colour)
+    {
+        for(auto &neighbour:graph[node])
+        {
+            if(colour[neighbour]==col) return false;
+        }
+        return true;
+    }
+};
