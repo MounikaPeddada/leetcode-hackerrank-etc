@@ -1,0 +1,12 @@
+class Solution:
+    def merge(self, intervals: list[list[int]]) -> list[list[int]]:
+        intervals.sort(key=lambda i:i[0])
+        merged=[] #create empty list after sorting out by considering first element in each list in the intervals
+        for start, end in intervals:
+            if not merged or start>merged[-1][1]:
+                merged.append([start, end])
+            else:
+                merged[-1][1]=max(merged[-1][1],end)
+        return merged
+                
+                
