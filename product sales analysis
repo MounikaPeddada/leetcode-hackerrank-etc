@@ -1,0 +1,11 @@
+# Write your MySQL query statement below
+WITH NEWTAB AS(
+    SELECT product_id,min(year) AS NEWCOL
+    FROM Sales 
+    GROUP BY product_id
+)
+SELECT S.product_id,S.year AS first_year,S.quantity,S.price
+FROM NEWTAB AS N
+JOIN Sales AS S
+ON N.product_id=S.product_id
+WHERE S.year=N.NEWCOL
