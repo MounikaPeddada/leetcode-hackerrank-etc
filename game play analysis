@@ -1,0 +1,9 @@
+# Write your MySQL query statement below
+WITH NEWTAB AS (
+SELECT player_id,MIN(event_date) AS FDL FROM Activity
+group by player_id)
+SELECT ROUND(COUNT(A.event_date)*1.0/(SELECT COUNT(*)FROM NEWTAB),2) AS  fraction
+FROM NEWTAB AS N
+JOIN Activity AS A
+ON A.player_id=N.player_id
+WHERE A.event_date = DATE_ADD(N.FDL,interval 1 day);
